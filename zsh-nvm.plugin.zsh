@@ -30,7 +30,8 @@ _zsh_nvm_global_binaries() {
   # If we have some, format them
   if [[ -n "$global_binary_paths" ]]; then
     echo "$NVM_DIR"/v0*/bin/*(N) "$NVM_DIR"/versions/*/*/bin/*(N) |
-      xargs -n 1 basename |
+      tr ' ' '\n' |
+      sed 's!.*/!!' |
       sort |
       uniq
   fi
@@ -216,7 +217,7 @@ if [[ "$ZSH_NVM_NO_LOAD" != true ]]; then
 
     # Enable completion
     [[ "$NVM_COMPLETION" == true ]] && _zsh_nvm_completion
-    
+
     # Auto use nvm on chpwd
     [[ "$NVM_AUTO_USE" == true ]] && add-zsh-hook chpwd _zsh_nvm_auto_use && _zsh_nvm_auto_use
   fi
